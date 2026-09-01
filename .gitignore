@@ -1,2 +1,7 @@
-
-/OpenWA/node_modules
+.env
+.env.example
+*.session
+*.session-journal
+*.log
+__pycache__/
+*.pyc
