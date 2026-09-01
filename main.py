@@ -17,7 +17,6 @@ from urllib.parse import (
 from telethon import TelegramClient, events
 from telethon.errors import RPCError
 
-from telethon.sessions import SQLiteSession
 
 # ============================================================
 # CONFIG
@@ -104,7 +103,7 @@ CUELINKS_API_URL = (
 # ============================================================
 
 client = TelegramClient(
-    SQLiteSession("/etc/secrets/telegram_session"),
+    "telegram_session",
     API_ID,
     API_HASH
 )
