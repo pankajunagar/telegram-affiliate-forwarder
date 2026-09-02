@@ -6,6 +6,8 @@ import os
 import re
 import requests
 import asyncio
+import base64
+import shutil
 
 from urllib.parse import (
     urlparse,
@@ -18,6 +20,15 @@ from telethon import TelegramClient, events
 from telethon.errors import RPCError
 from telethon.sessions import SQLiteSession
 
+SESSION_SECRET = "/etc/secrets/vorora_telegram.session"
+SESSION_FILE = "/tmp/vorora_telegram.session"
+
+# Base64 secret ne actual .session SQLite file ma convert karo
+with open(SESSION_SECRET, "rb") as f:
+    encoded = f.read()
+
+with open(SESSION_FILE, "wb") as f:
+    f.write(base64.b64decode(encoded))
 
 # ============================================================
 # CONFIG
@@ -104,11 +115,10 @@ CUELINKS_API_URL = (
 # ============================================================
 
 client = TelegramClient(
-    SQLiteSession("/etc/secrets/vorora_telegram"),
+    SQLiteSession("/tmp/vorora_telegram"),
     API_ID,
     API_HASH
 )
-
 
 # ============================================================
 # BOT CLIENT
