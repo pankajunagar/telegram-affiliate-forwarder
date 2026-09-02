@@ -16,6 +16,7 @@ from urllib.parse import (
 
 from telethon import TelegramClient, events
 from telethon.errors import RPCError
+from telethon.sessions import SQLiteSession
 
 
 # ============================================================
@@ -103,7 +104,7 @@ CUELINKS_API_URL = (
 # ============================================================
 
 client = TelegramClient(
-    "telegram_session",
+    SQLiteSession("/etc/secrets/vorora_telegram"),
     API_ID,
     API_HASH
 )
@@ -971,7 +972,12 @@ async def main():
     # START USER CLIENT
     # ========================================================
 
-    await client.start()
+    await client.connect()
+
+    if not await client.is_user_authorized():
+        raise RuntimeError(
+            "❌ Telegram session is NOT authorized."
+    )
 
     print(
         "✅ USER CLIENT CONNECTED"
