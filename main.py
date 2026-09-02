@@ -20,6 +20,15 @@ from telethon import TelegramClient, events
 from telethon.errors import RPCError
 from telethon.sessions import SQLiteSession
 
+print("=== SECRETS DEBUG ===")
+
+if os.path.exists("/etc/secrets"):
+    print("✅ /etc/secrets exists")
+    print("FILES:", os.listdir("/etc/secrets"))
+else:
+    print("❌ /etc/secrets does not exist")
+    
+
 SESSION_SECRET = "/etc/secrets/vorora_telegram.session"
 SESSION_FILE = "/tmp/vorora_telegram.session"
 
