@@ -20,25 +20,22 @@ from telethon import TelegramClient, events
 from telethon.errors import RPCError
 from telethon.sessions import SQLiteSession
 
-print("=== SECRETS DEBUG ===")
 
-print("Secrets directory exists:",
-      os.path.exists("/etc/secrets"))
+SESSION_BASE64 = os.getenv("VORORA_TELEGRAM_SESSION")
 
-if os.path.exists("/etc/secrets"):
-    print("FILES:",
-          os.listdir("/etc/secrets"))
-    
+if not SESSION_BASE64:
+    raise RuntimeError("❌ VORORA_TELEGRAM_SESSION missing")
 
-SESSION_SECRET = "/etc/secrets/vorora_telegram.session"
 SESSION_FILE = "/tmp/vorora_telegram.session"
 
-# Base64 secret ne actual .session SQLite file ma convert karo
-with open(SESSION_SECRET, "rb") as f:
-    encoded = f.read()
+try:
+    with open(SESSION_FILE, "wb") as f:
+        f.write(base64.b64decode(SESSION_BASE64))
 
-with open(SESSION_FILE, "wb") as f:
-    f.write(base64.b64decode(encoded))
+    print("✅ VORORA SESSION CREATED")
+
+except Exception as e:
+    raise RuntimeError(f"❌ Session decode error: {e}")
 
 # ============================================================
 # CONFIG
