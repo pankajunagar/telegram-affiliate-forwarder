@@ -22,11 +22,12 @@ from telethon.sessions import SQLiteSession
 
 print("=== SECRETS DEBUG ===")
 
+print("Secrets directory exists:",
+      os.path.exists("/etc/secrets"))
+
 if os.path.exists("/etc/secrets"):
-    print("✅ /etc/secrets exists")
-    print("FILES:", os.listdir("/etc/secrets"))
-else:
-    print("❌ /etc/secrets does not exist")
+    print("FILES:",
+          os.listdir("/etc/secrets"))
     
 
 SESSION_SECRET = "/etc/secrets/vorora_telegram.session"
